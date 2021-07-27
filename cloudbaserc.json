@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "envId": "{{env.ENV_ID}}",
+  "framework": {
+    "name": "severWeb",
+    "plugins": {
+      "client": {
+        "use": "@cloudbase/framework-plugin-container",
+        "inputs": {
+          "serviceName": "severWeb",
+          "servicePath": "/",
+          "uploadType": "package",
+          "containerPort": 80,
+          "envVariables": {
+            "WORDPRESS_DB_HOST": "{{env.DB_IP}}:{{env.DB_PORT}}",
+            "WORDPRESS_DB_NAME": "severWeb"
+          },
+          "volumeMounts": {
+            "/var/www/html": "severWeb-cfs"
+          }
+        }
+      }
+    },
+    "requirement": {
+      "addons": [
+        {
+          "type": "CFS",
+          "name": "severWeb-cfs"
+        },
+        {
+          "type": "CynosDB",
+          "name": "severWeb",
+          "envMap": {
+            "IP": "DB_IP",
+            "PORT": "DB_PORT",
+            "USERNAME": "WORDPRESS_DB_USER",
+            "PASSWORD": "WORDPRESS_DB_PASSWORD"
+          }
+        }
+      ]
+    }
+  }
+}
